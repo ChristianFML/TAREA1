@@ -1,0 +1,61 @@
+conda create -n scrapping-tripadvisor
+
+VERIFICAR DIRECTORIO
+
+conda activate scrapping-tripadvisor
+
+conda install scrapy -c conda-forge
+
+# scrapy shell "https://www.twitch.tv/directory/all"
+
+# response
+
+# view(response)
+
+scrapy startproject tripadv_scraping
+
+scrapy shell ‘https://www.tripadvisor.com/Hotels-g295366-Antigua_Sacatepequez_Department-Hotels.html'
+
+scrapy genspider reviews host_base
+
+scrapy crawl reviews -o tripAdv.csv -t csv
+
+******************************
+
+PARA TOMAR EN CUNETA SE BUSCA USER AGENT EN LA INSPECCION DE LA PAGINA
+EN EL HEADER Y SE COPIA
+MORE TOOLS, DEV TOOLS, NETWORK
+
+RELOAD DE LA PAGINA
+
+ELIJO CUALQUIERA COSO Y VEO EN EHADERS
+
+HASTA ABAJO ENCUENTRO EL HEADER CON USR AGNT
+
+
+********************************
+
+BeautifulSoup
+para quitar esas cositas
+BeautifulSoup(parrafo.xpath('.//div/p[2]').get(), "lxml").text
+
+From Francisco Manjón Gottlob to Everyone 08:25 PM
+Manual matic : first_paragraph = ''
+        text_content = response.css('#mw-content-text')
+        for par in text_content.css('.mw-parser-output > p'):
+            if par.attrib.get('class') != 'mw-empty-elt':
+                for text in par.css('*::text').getall():
+                    first_paragraph += text
+                break
+
+From Axel Muralles to Everyone 08:27 PM
+//text()
+al final del xpath únicamente obtiene el texto de todos los tags que están dentro de p
+
+
+From FRANZ JOSEF HAIDACHER AVILA to Everyone 08:59 PM
+scrapy crawl tripadvisor -o tripadvisor.csv -t csv
+
+
+From Axel Muralles to Everyone 09:01 PM
+en el archivo settings.py esta la opción CONCURRENT_REQUESTS donde se pueden disminuir los request concurrentes por si la compu se traba o por si se están teniendo respuestas errorneas http en los requests
